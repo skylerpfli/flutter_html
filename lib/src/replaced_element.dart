@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:chewie/chewie.dart';
+// import 'package:chewie/chewie.dart';
 import 'package:chewie_audio/chewie_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -170,29 +170,30 @@ class VideoContentElement extends ReplacedElement {
 
   @override
   Widget toWidget(RenderContext context) {
-    final double _width = width ?? (height ?? 150) * 2;
-    final double _height = height ?? (width ?? 300) / 2;
-    return AspectRatio(
-      aspectRatio: _width / _height,
-      child: Container(
-        key: AnchorKey.of(context.parser.key, this),
-        child: Chewie(
-          controller: ChewieController(
-            videoPlayerController: VideoPlayerController.network(
-              src.first ?? "",
-            ),
-            placeholder: poster != null
-                ? Image.network(poster!)
-                : Container(color: Colors.black),
-            autoPlay: autoplay,
-            looping: loop,
-            showControls: showControls,
-            autoInitialize: true,
-            aspectRatio: _width / _height,
-          ),
-        ),
-      ),
-    );
+    return Container();
+    // final double _width = width ?? (height ?? 150) * 2;
+    // final double _height = height ?? (width ?? 300) / 2;
+    // return AspectRatio(
+    //   aspectRatio: _width / _height,
+    //   child: Container(
+    //     key: AnchorKey.of(context.parser.key, this),
+    //     child: Chewie(
+    //       controller: ChewieController(
+    //         videoPlayerController: VideoPlayerController.network(
+    //           src.first ?? "",
+    //         ),
+    //         placeholder: poster != null
+    //             ? Image.network(poster!)
+    //             : Container(color: Colors.black),
+    //         autoPlay: autoplay,
+    //         looping: loop,
+    //         showControls: showControls,
+    //         autoInitialize: true,
+    //         aspectRatio: _width / _height,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 
