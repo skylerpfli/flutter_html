@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/src/css_parser.dart';
@@ -229,21 +227,20 @@ class Style {
     this.textOverflow,
     this.textTransform = TextTransform.none,
   }) {
-    if (this.alignment == null &&
-        (display == Display.BLOCK || display == Display.LIST_ITEM)) {
+    if (this.alignment == null && (display == Display.BLOCK || display == Display.LIST_ITEM)) {
       this.alignment = Alignment.centerLeft;
     }
   }
 
   static Map<String, Style> fromThemeData(ThemeData theme) => {
-    'h1': Style.fromTextStyle(theme.textTheme.displayLarge!),
-    'h2': Style.fromTextStyle(theme.textTheme.displayMedium!),
-    'h3': Style.fromTextStyle(theme.textTheme.displaySmall!),
-    'h4': Style.fromTextStyle(theme.textTheme.headlineMedium!),
-    'h5': Style.fromTextStyle(theme.textTheme.headlineSmall!),
-    'h6': Style.fromTextStyle(theme.textTheme.titleLarge!),
-    'body': Style.fromTextStyle(theme.textTheme.bodyMedium!),
-  };
+        'h1': Style.fromTextStyle(theme.textTheme.displayLarge!),
+        'h2': Style.fromTextStyle(theme.textTheme.displayMedium!),
+        'h3': Style.fromTextStyle(theme.textTheme.displaySmall!),
+        'h4': Style.fromTextStyle(theme.textTheme.headlineMedium!),
+        'h5': Style.fromTextStyle(theme.textTheme.headlineSmall!),
+        'h6': Style.fromTextStyle(theme.textTheme.titleLarge!),
+        'body': Style.fromTextStyle(theme.textTheme.bodyMedium!),
+      };
 
   static Map<String, Style> fromCss(String css, OnCssParseError? onCssParseError) {
     final declarations = parseExternalCss(css, onCssParseError);
@@ -325,18 +322,20 @@ class Style {
   }
 
   Style copyOnlyInherited(Style child) {
-    FontSize? finalFontSize = child.fontSize != null ?
-      fontSize != null && child.fontSize?.units == "em" ?
-        FontSize(child.fontSize!.size! * fontSize!.size!) : child.fontSize
-      : fontSize != null && fontSize!.size! < 0 ?
-        FontSize.percent(100) : fontSize;
-    LineHeight? finalLineHeight = child.lineHeight != null ?
-      child.lineHeight?.units == "length" ?
-        LineHeight(child.lineHeight!.size! / (finalFontSize == null ? 14 : finalFontSize.size!) * 1.2) : child.lineHeight
-      : lineHeight;
+    FontSize? finalFontSize = child.fontSize != null
+        ? fontSize != null && child.fontSize?.units == "em"
+            ? FontSize(child.fontSize!.size! * fontSize!.size!)
+            : child.fontSize
+        : fontSize != null && fontSize!.size! < 0
+            ? FontSize.percent(100)
+            : fontSize;
+    LineHeight? finalLineHeight = child.lineHeight != null
+        ? child.lineHeight?.units == "length"
+            ? LineHeight(child.lineHeight!.size! / (finalFontSize == null ? 14 : finalFontSize.size!) * 1.2)
+            : child.lineHeight
+        : lineHeight;
     return child.copyWith(
-      backgroundColor: child.backgroundColor != Colors.transparent ?
-        child.backgroundColor : backgroundColor,
+      backgroundColor: child.backgroundColor != Colors.transparent ? child.backgroundColor : backgroundColor,
       color: child.color ?? color,
       direction: child.direction ?? direction,
       display: display == Display.NONE ? display : child.display,
@@ -350,9 +349,8 @@ class Style {
       listStyleType: child.listStyleType ?? listStyleType,
       listStylePosition: child.listStylePosition ?? listStylePosition,
       textAlign: child.textAlign ?? textAlign,
-      textDecoration: TextDecoration.combine(
-          [child.textDecoration ?? TextDecoration.none,
-            textDecoration ?? TextDecoration.none]),
+      textDecoration:
+          TextDecoration.combine([child.textDecoration ?? TextDecoration.none, textDecoration ?? TextDecoration.none]),
       textShadow: child.textShadow ?? textShadow,
       whiteSpace: child.whiteSpace ?? whiteSpace,
       wordSpacing: child.wordSpacing ?? wordSpacing,
@@ -420,8 +418,7 @@ class Style {
       textDecoration: textDecoration ?? this.textDecoration,
       textDecorationColor: textDecorationColor ?? this.textDecorationColor,
       textDecorationStyle: textDecorationStyle ?? this.textDecorationStyle,
-      textDecorationThickness:
-          textDecorationThickness ?? this.textDecorationThickness,
+      textDecorationThickness: textDecorationThickness ?? this.textDecorationThickness,
       textShadow: textShadow ?? this.textShadow,
       verticalAlign: verticalAlign ?? this.verticalAlign,
       whiteSpace: whiteSpace ?? this.whiteSpace,

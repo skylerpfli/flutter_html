@@ -1,7 +1,6 @@
 library flutter_html;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/image_render.dart';
 import 'package:flutter_html/src/html_elements.dart';
@@ -151,8 +150,7 @@ class Html extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dom.Document doc =
-        data != null ? HtmlParser.parseHTML(data!) : document!;
+    final dom.Document doc = data != null ? HtmlParser.parseHTML(data!) : document!;
     final double? width = shrinkWrap ? null : MediaQuery.of(context).size.width;
 
     return Container(
@@ -224,7 +222,7 @@ class SelectableHtml extends StatelessWidget {
     this.tagsList = const [],
     this.selectionControls,
     this.scrollPhysics,
-  }) : document = null,
+  })  : document = null,
         assert(data != null),
         _anchorKey = anchorKey ?? GlobalKey(),
         super(key: key);
@@ -241,7 +239,7 @@ class SelectableHtml extends StatelessWidget {
     this.tagsList = const [],
     this.selectionControls,
     this.scrollPhysics,
-  }) : data = null,
+  })  : data = null,
         assert(document != null),
         _anchorKey = anchorKey ?? GlobalKey(),
         super(key: key);

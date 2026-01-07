@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/src/anchor.dart';
 import 'package:flutter_html/src/html_elements.dart';
 import 'package:flutter_html/src/styled_element.dart';
-import 'package:flutter_html/src/utils.dart';
 import 'package:flutter_html/style.dart';
 // import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:html/dom.dart' as dom;
@@ -218,7 +215,13 @@ class TableCellElement extends StyledElement {
     required List<StyledElement> children,
     required Style style,
     required dom.Element node,
-  }) : super(name: name, elementId: elementId, elementClasses: elementClasses, children: children, style: style, node: node) {
+  }) : super(
+            name: name,
+            elementId: elementId,
+            elementClasses: elementClasses,
+            children: children,
+            style: style,
+            node: node) {
     colspan = _parseSpan(this, "colspan");
     rowspan = _parseSpan(this, "rowspan");
   }
@@ -307,25 +310,26 @@ class DetailsContentElement extends LayoutElement {
     return ExpansionTile(
         key: AnchorKey.of(context.parser.key, this),
         expandedAlignment: Alignment.centerLeft,
-        title: elementList.isNotEmpty == true && elementList.first.localName == "summary" ? StyledText(
-          textSpan: TextSpan(
-            style: style.generateTextStyle(),
-            children: firstChild == null ? [] : [firstChild],
-          ),
-          style: style,
-          renderContext: context,
-        ) : Text("Details"),
+        title: elementList.isNotEmpty == true && elementList.first.localName == "summary"
+            ? StyledText(
+                textSpan: TextSpan(
+                  style: style.generateTextStyle(),
+                  children: firstChild == null ? [] : [firstChild],
+                ),
+                style: style,
+                renderContext: context,
+              )
+            : Text("Details"),
         children: [
           StyledText(
             textSpan: TextSpan(
-              style: style.generateTextStyle(),
-              children: getChildren(childrenList, context, elementList.isNotEmpty == true && elementList.first.localName == "summary" ? firstChild : null)
-            ),
+                style: style.generateTextStyle(),
+                children: getChildren(childrenList, context,
+                    elementList.isNotEmpty == true && elementList.first.localName == "summary" ? firstChild : null)),
             style: style,
             renderContext: context,
           ),
-        ]
-    );
+        ]);
   }
 
   List<InlineSpan> getChildren(List<InlineSpan> children, RenderContext context, InlineSpan? firstChild) {
@@ -342,8 +346,8 @@ class EmptyLayoutElement extends LayoutElement {
 }
 
 LayoutElement parseLayoutElement(
-    dom.Element element,
-    List<StyledElement> children,
+  dom.Element element,
+  List<StyledElement> children,
 ) {
   switch (element.localName) {
     case "details":
@@ -351,11 +355,7 @@ LayoutElement parseLayoutElement(
         return EmptyLayoutElement(name: "empty");
       }
       return DetailsContentElement(
-          node: element,
-          name: element.localName!,
-          children: children,
-          elementList: element.children
-      );
+          node: element, name: element.localName!, children: children, elementList: element.children);
     case "table":
       return TableLayoutElement(
         name: element.localName!,
@@ -376,10 +376,6 @@ LayoutElement parseLayoutElement(
         node: element,
       );
     default:
-      return TableLayoutElement(
-          children: children,
-          name: "[[No Name]]",
-          node: element
-      );
+      return TableLayoutElement(children: children, name: "[[No Name]]", node: element);
   }
 }

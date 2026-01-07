@@ -18,11 +18,13 @@ final _dataUriFormat = RegExp("^(?<scheme>data):(?<mime>image\/[\\w\+\-\.]+)(?<e
 ImageSourceMatcher dataUriMatcher({String? encoding = 'base64', String? mime}) => (attributes, element) {
       if (_src(attributes) == null) return false;
       final dataUri = _dataUriFormat.firstMatch(_src(attributes)!);
-      return dataUri != null && (mime == null || dataUri.namedGroup('mime') == mime) && (encoding == null || dataUri.namedGroup('encoding') == ';$encoding');
+      return dataUri != null &&
+          (mime == null || dataUri.namedGroup('mime') == mime) &&
+          (encoding == null || dataUri.namedGroup('encoding') == ';$encoding');
     };
 
 ImageSourceMatcher networkSourceMatcher({
-  List<String> schemas: const ["https", "http"],
+  List<String> schemas = const ["https", "http"],
   List<String>? domains,
   String? extension,
 }) =>
@@ -30,13 +32,16 @@ ImageSourceMatcher networkSourceMatcher({
       if (_src(attributes) == null) return false;
       try {
         final src = Uri.parse(_src(attributes)!);
-        return schemas.contains(src.scheme) && (domains == null || domains.contains(src.host)) && (extension == null || src.path.endsWith(".$extension"));
+        return schemas.contains(src.scheme) &&
+            (domains == null || domains.contains(src.host)) &&
+            (extension == null || src.path.endsWith(".$extension"));
       } catch (e) {
         return false;
       }
     };
 
-ImageSourceMatcher assetUriMatcher() => (attributes, element) => _src(attributes) != null && _src(attributes)!.startsWith("asset:");
+ImageSourceMatcher assetUriMatcher() =>
+    (attributes, element) => _src(attributes) != null && _src(attributes)!.startsWith("asset:");
 
 typedef ImageRender = Widget? Function(
   RenderContext context,
@@ -141,7 +146,10 @@ ImageRender networkImageRender({
             return ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
-                  constraints: BoxConstraints(maxWidth: width ?? _width(attributes) ?? snapshot.data!.width, maxHeight: (width ?? _width(attributes) ?? snapshot.data!.width) / _aspectRatio(attributes, snapshot)),
+                  constraints: BoxConstraints(
+                      maxWidth: width ?? _width(attributes) ?? snapshot.data!.width,
+                      maxHeight:
+                          (width ?? _width(attributes) ?? snapshot.data!.width) / _aspectRatio(attributes, snapshot)),
                   child: AspectRatio(
                     aspectRatio: _aspectRatio(attributes, snapshot),
                     child: Image.network(
@@ -151,7 +159,8 @@ ImageRender networkImageRender({
                       height: height ?? _height(attributes),
                       frameBuilder: (ctx, child, frame, _) {
                         if (frame == null) {
-                          return altWidget?.call(_alt(attributes)) ?? Text(_alt(attributes) ?? "", style: context.style.generateTextStyle());
+                          return altWidget?.call(_alt(attributes)) ??
+                              Text(_alt(attributes) ?? "", style: context.style.generateTextStyle());
                         }
                         return child;
                       },
@@ -159,7 +168,8 @@ ImageRender networkImageRender({
                   ),
                 ));
           } else if (snapshot.hasError) {
-            return altWidget?.call(_alt(attributes)) ?? Text(_alt(attributes) ?? "", style: context.style.generateTextStyle());
+            return altWidget?.call(_alt(attributes)) ??
+                Text(_alt(attributes) ?? "", style: context.style.generateTextStyle());
           } else {
             return loadingWidget?.call() ?? const CircularProgressIndicator();
           }

@@ -6,8 +6,7 @@ import 'package:flutter_html/src/replaced_element.dart';
 import 'package:flutter_html/src/utils.dart';
 import 'package:flutter_html/style.dart';
 import 'package:html/dom.dart' as dom;
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 
 /// [IframeContentElement is a [ReplacedElement] with web content.
 class IframeContentElement extends ReplacedElement {
@@ -29,10 +28,10 @@ class IframeContentElement extends ReplacedElement {
 
   @override
   Widget toWidget(RenderContext context) {
-    final html.IFrameElement iframe = html.IFrameElement()
+    final web.HTMLIFrameElement iframe = web.HTMLIFrameElement()
       ..width = (width ?? (height ?? 150) * 2).toString()
       ..height = (height ?? (width ?? 300) / 2).toString()
-      ..src = src
+      ..src = src ?? ''
       ..style.border = 'none';
     //not actually an error
     ui.platformViewRegistry.registerViewFactory(createdViewId, (int viewId) => iframe);
@@ -46,9 +45,7 @@ class IframeContentElement extends ReplacedElement {
               textDirection: TextDirection.ltr,
               child: HtmlElementView(
                 viewType: createdViewId,
-              )
-          ),
-        )
-    );
+              )),
+        ));
   }
 }
